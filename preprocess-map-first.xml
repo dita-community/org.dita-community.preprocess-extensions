@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." name="preprocess-map-first">
+  
+  <!-- ==========================================
+       DITA Community Map-First Preprocessing
+       
+       Rearchitects the Open Toolkit preprocessing pipeline
+       to do all map processing first, then do processing
+       of topics to resolve conrefs, apply filtering,
+       and create temporary topic files reflecting any
+       copy-to and chunking defined in the map.
+       
+       ========================================== -->
+  
+    <target name="dc-preprocess-map-first" 
+      description="DITA Community map-first preprocessing"
+      depends="
+                gen-list,
+                debug-filter,
+                copy-files,
+                conrefpush,
+                conref,
+                move-meta-entries,
+                keyref,
+                coderef,
+                mapref,
+                mappull,
+                dc-adjust-copy-to,
+                chunk,
+                maplink,
+                move-links,
+                topicpull,
+                flag-module"
+      >
+      <!-- This target replaces the base OT preprocess. 
+      
+           
+      -->
+    </target>
+  
+  <target name="dc-adjust-copy-to" 
+    depends="dc-adjust-copy-to-check" 
+    unless="preprocess.dc-adjust-copy-to.skip" 
+    description="Adjust copy-to attributes in resolved map">
+
+    <dirname property="mappull.workdir" 
+      file="${dita.temp.dir}/${user.input.file}"
+    />
+    
+    <condition 
+      property="dita.preprocess.reloadstylesheet.adjust-copy-to" 
+      value="${dita.preprocess.reloadstylesheet}">
+      <not><isset property="dita.preprocess.reloadstylesheet.adjust-copy-to"></isset></not>
+    </condition>
+    
+    <xslt taskname="adjust-copy-to" 
+      basedir="${dita.temp.dir}" 
+      destdir="${dita.temp.dir}" 
+      includesfile="${dita.temp.dir}/${fullditamapfile}" 
+      extension=".ditamap.copy-to" 
+      classpathref="dost.class.path" 
+      reloadstylesheet="${dita.preprocess.reloadstylesheet.adjust-copy-to}"
+      style="${dita.plugin.org.dita-community.adjust-copy-to.dir}/xsl/adjustCopyTo.xsl">
+      <param name="DITAEXT" expression="${dita.ext}" if="dita.ext"></param>
+      <param name="TRANSTYPE" expression="${transtype}"/>
+      <param name="use-nav-keys" 
+             expression="${dc.adjust-copy-to.use-nav-keys}"
+             if="dc.adjust-copy-to.use-nav-keys"
+      />
+      <param name="override-existing-copy-to" 
+             expression="${dc.adjust-copy-to.override-existing-copy-to}"
+             if="dc.adjust-copy-to.override-existing-copy-to"
+      />
+      <param name="expand-reltable-refs"
+             expression="${dc.adjust-copy-to.expand-reltable-refs}"
+             if="dc.adjust-copy-to.expand-reltable-refs"
+      />      
+      <param name="debug"
+             expression="${dc.adjust-copy-to.debug}"
+             if="dc.adjust-copy-to.debug"
+      />
+      <xmlcatalog refid="dita.catalog"></xmlcatalog>
+    </xslt>
+    <move overwrite="true" todir="${dita.temp.dir}">
+      <fileset dir="${dita.temp.dir}" includes="**/*.ditamap.copy-to"/>
+      <mapper type="glob" from="*.ditamap.copy-to" to="*.ditamap"/>
+    </move>
+  </target>
+  
+  <target name="dc-adjust-copy-to-check">
+    <condition property="preprocess.dc-adjust-copy-to.skip">
+      <isset property="noMap"></isset>
+    </condition>
+  </target>
+
+</project>
