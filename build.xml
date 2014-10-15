@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." name="preprocess-map-first-build">
+<project basedir="." name="dc-preprocess-extensions">
   <!-- 
-       DITA Community map-first preprocessing configuration. 
+       DITA Community Open Toolkit preprocessing extensions. 
     -->
   
-   <import file="preprocess-map-first.xml"/>
+   <import file="preprocess-extensions.xml"/>
 </project>
