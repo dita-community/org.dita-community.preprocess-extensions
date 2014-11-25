@@ -6,7 +6,8 @@
     See the preprocess-extensions.xml Ant script for details
     of the extensions.
     -->
-  
+  <feature extension="package.support.name" value="Eliot Kimber"/>
+  <feature extension="package.support.email" value="ekimber@contrext.com"/>    
   
   <require plugin="org.dita-community.adjust-copy-to"/>
   
