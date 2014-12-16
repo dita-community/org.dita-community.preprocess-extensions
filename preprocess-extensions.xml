@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir="." name="preprocess-map-first">
-  
+
   <!-- ==========================================
        DITA Community Map-First Preprocessing
-       
+
        Rearchitects the Open Toolkit preprocessing pipeline
        to do all map processing first, then do processing
        of topics to resolve conrefs, apply filtering,
        and create temporary topic files reflecting any
        copy-to and chunking defined in the map.
-       
+
        ========================================== -->
-  
-    <target name="dc-preprocess-map-first" 
+
+    <target name="dc-preprocess-map-first"
       description="DITA Community map-first preprocessing"
       depends="
                 gen-list,
@@ -32,15 +32,22 @@
                 topicpull,
                 flag-module"
       >
-      <!-- This target replaces the base OT preprocess. 
-      
-           
+      <!-- This target replaces the base OT preprocess.
+
+
       -->
     </target>
-  
-    <target name="dc-preprocess" 
+
+    <target name="dc-preprocess"
       description="DITA Community map-first preprocessing"
-      depends="
+      depends="dc-preprocess-check-version, dc-preprocess-1-6, dc-preprocess-latest-version">
+      <!-- This target replaces the base OT preprocess.
+      -->
+    </target>
+
+    <target name="dc-preprocess-1-6" depends="preprocess" if="dc-preprocess-1-6.do" />
+
+    <target name="dc-preprocess-latest-version" if="dc-preprocess-latest.do" depends="
                 gen-list,
                 debug-filter,
                 copy-files,
@@ -56,13 +63,23 @@
                 maplink,
                 move-links,
                 topicpull,
-                flag-module"
-      >
-      <!-- This target replaces the base OT preprocess. 
-      
-           
-      -->
+                flag-module"/>
+
+
+
+    <target name="dc-preprocess-check-version">
+
+      <condition property="dc-preprocess-1-6.do">
+        <contains string="${otversion}" substring="1.6" />
+      </condition>
+
+      <condition property="dc-preprocess-latest.do">
+        <not>
+          <isset property="dc-preprocess-1-6.do" />
+        </not>
+      </condition>
+
     </target>
-  
+
 
 </project>
