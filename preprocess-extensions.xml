@@ -14,23 +14,27 @@
   
     <target name="dc-preprocess-map-first" 
       description="DITA Community map-first preprocessing"
-      depends="
+      depends=" preprocess.init,
                 gen-list,
                 debug-filter,
                 mapref,
                 mappull,
                 dc-adjust-copy-to,
                 copy-files,
+                keyref,
                 conrefpush,
                 conref,
-                move-meta-entries,
-                keyref,
+                profile,
+                topic-fragment,
                 coderef,
+                mapref,
+                move-meta-entries,
+                mappull,
                 chunk,
                 maplink,
-                move-links,
                 topicpull,
-                flag-module"
+                flag-module,
+                clean-map"
       >
       <!-- This target replaces the base OT preprocess. 
       
@@ -40,23 +44,24 @@
   
     <target name="dc-preprocess" 
       description="DITA Community map-first preprocessing"
-      depends="
+      depends="preprocess.init,
                 gen-list,
                 debug-filter,
                 copy-files,
+                keyref,
                 conrefpush,
                 conref,
-                move-meta-entries,
-                keyref,
+                topic-fragment,
                 coderef,
                 mapref,
+                move-meta-entries,
                 mappull,
                 dc-adjust-copy-to,
                 chunk,
                 maplink,
-                move-links,
                 topicpull,
-                flag-module"
+                flag-module,
+                clean-map"
       >
       <!-- This target replaces the base OT preprocess. 
       
