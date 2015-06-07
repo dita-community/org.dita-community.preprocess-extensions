@@ -12,6 +12,131 @@
        
        ========================================== -->
   
+    <!-- Get the OT configuration properties so we can then
+         pass them as parameters or system properties to
+         operations.
+      -->
+    <loadproperties srcfile="${dita.dir}/lib/configuration.properties"/>
+  
+<!-- OT 2.1 preprocess:           OT 1.8.5 preprocess
+    
+      preprocess.init,
+      gen-list,                   gen-list,
+      debug-filter,               debug-filter,
+      copy-files,                 copy-files,
+      keyref,
+      conrefpush,                 conrefpush,
+      conref,                     conref,
+      profile,                    move-meta-entries,
+      topic-fragment,             keyref,
+      coderef,                    coderef, 
+      mapref,                     mapref,
+      move-meta-entries,
+      mappull,                    mappull,
+      chunk,                      chunk,
+      maplink,                    maplink,
+                                  move-links,
+      topicpull,                  topicpull,
+      flag-module,                flag-module,
+      clean-map
+
+      2.1 Only:                   1.8.5 Only:
+      
+      preprocess.init             move-links
+      move-meta-entries
+      clean-map
+      profile
+-->
+  
+    <!-- Create stub targets for those targets that
+         are not in both 1.8.5 and 2.1:
+         
+         The real versions of these targets should
+         be used when they are present because
+         they occur earlier in the build file
+         precedence order.
+      -->
+  <!-- 2.1 Only: -->
+    <target name="preprocess.init"/>
+    <target name="move-meta-entries"/>
+    <target name="clean-map"/>
+    <target name="profile"/>
+    <target name="topic-fragment"/>
+  
+  <!-- 1.8.5 Only: -->
+  
+    <target name="move-links"/>
+  
+    <target name="dc-preprocess" 
+      description="DITA Community preprocessing"
+      depends="dc-preprocess-1.8.5, dc-preprocess-2.1, dc-preprocess-unsupported-version"
+    />
+  
+    <condition property="isOT1.8.5">
+      <equals arg1="${otversion}" arg2="1.8.5"/>
+    </condition>
+    <condition property="isOT2.1">
+      <matches string="${otversion}" pattern="^2\.1"/>
+    </condition>
+  
+    <condition property="isOTUnknown">
+      <not>
+        <or>
+          <equals arg1="${otversion}" arg2="1.8.5"/>
+          <matches string="${otversion}" pattern="^2\.1"/>
+        </or>
+      </not>
+    </condition>
+    
+  
+    <target name="dc-preprocess-1.8.5" if="isOT1.8.5"
+      description="DITA Community preprocessing for OT 1.8.5"
+      depends="
+                gen-list,
+                debug-filter,
+                copy-files,
+                conrefpush,
+                conref,
+                move-meta-entries,
+                keyref,
+                coderef,
+                mapref,
+                mappull,
+                dc-adjust-copy-to,
+                chunk,
+                maplink,
+                move-links,
+                topicpull,
+                flag-module"
+      >
+    </target>
+  
+      <!-- FIXME: Not yet modified for preprocess extensions -->
+    <target name="dc-preprocess-2.1" if="isOT2.1"
+      description="DITA Community preprocessing for OT 2.1"
+      depends="
+                preprocess.init,
+                gen-list,
+                debug-filter,
+                copy-files,
+                keyref,
+                conrefpush,
+                conref,
+                profile,
+                topic-fragment,
+                coderef,
+                mapref,
+                move-meta-entries,
+                mappull,
+                chunk,
+                maplink,
+                topicpull,
+                flag-module,
+                clean-map"
+      >
+    </target>
+  
+  
     <target name="dc-preprocess-map-first" 
       description="DITA Community map-first preprocessing"
       depends="
@@ -37,32 +162,11 @@
            
       -->
     </target>
-  
-    <target name="dc-preprocess" 
-      description="DITA Community map-first preprocessing"
-      depends="
-                gen-list,
-                debug-filter,
-                copy-files,
-                conrefpush,
-                conref,
-                move-meta-entries,
-                keyref,
-                coderef,
-                mapref,
-                mappull,
-                dc-adjust-copy-to,
-                chunk,
-                maplink,
-                move-links,
-                topicpull,
-                flag-module"
+    
+    <target name="dc-preprocess-unsupported-version" if="isOTUnknown"
+      depends="preprocess"
       >
-      <!-- This target replaces the base OT preprocess. 
-      
-           
-      -->
+      <echo> - [WARN] Unsupported Open Toolkit version "${otversion}". Using base preprocessing.</echo>
     </target>
-  
 
 </project>
