@@ -15,8 +15,14 @@
     <target name="dc-preprocess-map-first" 
       description="DITA Community map-first preprocessing"
       depends="
-                gen-list,
+               gen-list,
                 debug-filter,
+                copy-files,
+                conrefpush,
+                conref,
+                move-meta-entries,
+                keyref,
+                coderef,
                 mapref,
                 mappull,
                 dc-adjust-copy-to,
@@ -26,6 +32,8 @@
                 move-meta-entries,
                 keyref,
                 coderef,
+                mapref,
+                mappull,
                 chunk,
                 maplink,
                 move-links,
@@ -52,6 +60,8 @@
                 mapref,
                 mappull,
                 dc-adjust-copy-to,
+                mapref,
+                mappull,
                 chunk,
                 maplink,
                 move-links,
