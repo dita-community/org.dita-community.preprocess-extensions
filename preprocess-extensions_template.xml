@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." name="preprocess-map-first">
+<project basedir="." name="preprocess-map-first"
+  xmlns:dita="http://dita-ot.sourceforge.net" 
+  >
   
   <!-- ==========================================
        DITA Community Map-First Preprocessing
@@ -12,25 +14,57 @@
        
        ========================================== -->
   
-    <target name="dc-preprocess-map-first" 
+  <condition name="isOT1.8.5">
+    <equals arg1="${otversion}" arg2="1.8.5"/> 
+  </condition>
+  <condition name="isOT2">
+    <matches string="${otversion}" pattern="^2\."/> 
+  </condition>
+  <condition name="isOT2.2">
+    <matches string="${otversion}" pattern="^2\.2\."/> 
+  </condition>
+  
+  <echo>otversion="${otversion}"</echo>
+  <echo>isOT1.8.5="${isOT1.8.5}"</echo>
+  <echo>isOT2="${isOT2}"</echo>
+  <echo>isOT2.2="${isOT2.2}"</echo>
+  
+  <target name="dc-preprocess" depends="preprocess-2, dc-preprocess-ot1.8.5">
+    
+  </target>
+  
+  <!-- Stub targets for targets in 2.x but not 1.8.5: -->
+  <target name="preprocess.init"/>
+  <target name="branch-filter"/>
+  <target name="profile"/>
+  <target name="topic-fragment"/>
+  <target name="clean-map"/>
+  
+  <!-- Stub targets for targets in 1.8.5 but not 2.x: -->
+  <target name="mappull"/>
+  <target name="move-links"/>
+  
+    <target name="dc-preprocess-ot-1.8.5" if="isOT1.8.5" 
       description="DITA Community map-first preprocessing"
-      depends="
+      dita:depends="{depend.preprocess.pre},
                 gen-list,
                 debug-filter,
-                mapref,
-                mappull,
-                dc-adjust-copy-to,
                 copy-files,
                 conrefpush,
                 conref,
                 move-meta-entries,
                 keyref,
                 coderef,
+                mapref,
+                mappull,
+                dc-adjust-copy-to,
                 chunk,
                 maplink,
                 move-links,
                 topicpull,
-                flag-module"
+                flag-module,
+                {depend.preprocess.post}"
+       dita:extension="depends org.dita.dost.platform.InsertDependsAction"
       >
       <!-- This target replaces the base OT preprocess. 
       
@@ -38,31 +72,62 @@
       -->
     </target>
   
-    <target name="dc-preprocess" 
-      description="DITA Community map-first preprocessing"
-      depends="
-                gen-list,
-                debug-filter,
-                copy-files,
-                conrefpush,
-                conref,
-                move-meta-entries,
-                keyref,
-                coderef,
-                mapref,
-                mappull,
-                dc-adjust-copy-to,
-                chunk,
-                maplink,
-                move-links,
-                topicpull,
-                flag-module"
-      >
-      <!-- This target replaces the base OT preprocess. 
+  <!-- This variant of dc-preprocess process the map before doing
+       any other preprocessing.
+    -->
+  <target name="dc-preprocess-map-first-ot1.8.5" if="isOT1.8.5"
+    description="DITA Community map-first preprocessing"
+    dita:depends="{depend.preprocess.pre},
+    gen-list,
+    debug-filter,
+    mapref,
+    mappull,
+    dc-adjust-copy-to,
+    copy-files,
+    conref,
+    conrefpush,
+    move-meta-entries,
+    keyref,
+    coderef,
+    chunk,
+    maplink,
+    move-links,
+    topicpull,
+    flag-module,
+    {depend.preprocess.post}"
+    dita:extension="depends org.dita.dost.platform.InsertDependsAction"
+    >
+    <!-- This target replaces the base OT preprocess. 
       
            
       -->
-    </target>
+  </target>
+  
+  <!-- THis is the same for OT 2.1 and 2.2 -->
+  <target name="preprocess-2.2" if="isOT2"
+    dita:depends="{depend.preprocess.pre},
+    preprocess.init,
+    gen-list,
+    debug-filter,
+    mapref,
+    branch-filter,
+    copy-files,
+    keyref,
+    conrefpush,
+    conref,
+    profile,
+    topic-fragment,
+    coderef,
+    move-meta-entries,
+    chunk,
+    maplink,
+    topicpull,
+    flag-module,
+    clean-map,
+    {depend.preprocess.post}"
+    dita:extension="depends org.dita.dost.platform.InsertDependsAction"
+    description="Preprocessing ended" />
+  
   
 
 </project>

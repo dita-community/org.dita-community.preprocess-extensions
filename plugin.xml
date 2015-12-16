@@ -13,4 +13,6 @@
   
   <feature extension="dita.conductor.target.relative" file="build.xml"/>
   
+  <template file="preprocess-extensions_template.xml"/>
+  
 </plugin>
