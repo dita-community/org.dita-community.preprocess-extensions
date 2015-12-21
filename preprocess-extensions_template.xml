@@ -14,13 +14,15 @@
        
        ========================================== -->
   
-  <condition name="isOT1.8.5">
+  <loadproperties srcfile="${dita.dir}/lib/configuration.properties"/>
+  
+  <condition property="isOT1.8.5">
     <equals arg1="${otversion}" arg2="1.8.5"/> 
   </condition>
-  <condition name="isOT2">
+  <condition property="isOT2">
     <matches string="${otversion}" pattern="^2\."/> 
   </condition>
-  <condition name="isOT2.2">
+  <condition property="isOT2.2">
     <matches string="${otversion}" pattern="^2\.2\."/> 
   </condition>
   
@@ -29,7 +31,7 @@
   <echo>isOT2="${isOT2}"</echo>
   <echo>isOT2.2="${isOT2.2}"</echo>
   
-  <target name="dc-preprocess" depends="preprocess-2, dc-preprocess-ot1.8.5">
+  <target name="dc-preprocess" depends="preprocess-ot2.2, dc-preprocess-ot1.8.5">
     
   </target>
   
@@ -44,7 +46,7 @@
   <target name="mappull"/>
   <target name="move-links"/>
   
-    <target name="dc-preprocess-ot-1.8.5" if="isOT1.8.5" 
+    <target name="dc-preprocess-ot1.8.5" if="isOT1.8.5" 
       description="DITA Community map-first preprocessing"
       dita:depends="{depend.preprocess.pre},
                 gen-list,
@@ -104,7 +106,7 @@
   </target>
   
   <!-- THis is the same for OT 2.1 and 2.2 -->
-  <target name="preprocess-2.2" if="isOT2"
+  <target name="preprocess-ot2.2" if="isOT2"
     dita:depends="{depend.preprocess.pre},
     preprocess.init,
     gen-list,
