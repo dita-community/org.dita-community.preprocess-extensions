@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project basedir="." name="preprocess-map-first" xmlns:dita="http://dita-ot.sourceforge.net">
+<?xml version="1.0" encoding="utf-8"?><project basedir="." name="preprocess-map-first">
   
   <!-- ==========================================
        DITA Community Map-First Preprocessing
@@ -11,70 +11,71 @@
        
        ========================================== -->
   
-  <loadproperties srcfile="${dita.dir}/lib/configuration.properties"/>
+  <loadproperties srcfile="${dita.dir}/lib/configuration.properties"></loadproperties>
   
   <condition property="isOT1.8.5">
-    <equals arg1="${otversion}" arg2="1.8.5"/> 
+    <equals arg1="${otversion}" arg2="1.8.5"></equals> 
   </condition>
 
   <condition property="otmajorversion" value="1">
-    <matches string="${otversion}" pattern="^1\.8\."/> 
+    <matches string="${otversion}" pattern="^1\.8\."></matches> 
   </condition>
 
   <condition property="otmajorversion" value="2">
-    <matches string="${otversion}" pattern="^2\."/> 
+    <matches string="${otversion}" pattern="^2\."></matches> 
   </condition>
 
   <condition property="otshortversion" value="2.2">
-    <matches string="${otversion}" pattern="^2\.2\."/> 
+    <matches string="${otversion}" pattern="^2\.2\."></matches> 
   </condition>
 
   <condition property="otshortversion" value="2.1">
-    <matches string="${otversion}" pattern="^2\.1\."/> 
+    <matches string="${otversion}" pattern="^2\.1\."></matches> 
   </condition>
 
   <condition property="otshortversion" value="2">
-    <matches string="${otversion}" pattern="^2\.0\."/> 
+    <matches string="${otversion}" pattern="^2\.0\."></matches> 
   </condition>
 
   <condition property="otshortversion" value="1.8">
-    <matches string="${otversion}" pattern="^1\.8\."/> 
+    <matches string="${otversion}" pattern="^1\.8\."></matches> 
   </condition>
 
   <condition property="otshortversion" value="1.7">
-    <matches string="${otversion}" pattern="^1\.7\."/> 
+    <matches string="${otversion}" pattern="^1\.7\."></matches> 
   </condition>
 
   <condition property="isOT2">
-    <matches string="${otversion}" pattern="^2\."/> 
+    <matches string="${otversion}" pattern="^2\."></matches> 
   </condition>
 
   <condition property="isOT2.2">
-    <matches string="${otversion}" pattern="^2\.2\."/> 
+    <matches string="${otversion}" pattern="^2\.2\."></matches> 
   </condition>
 
 
   
   
   <target name="dc-preprocess" depends="preprocess-ot2.2, dc-preprocess-ot1.8.5">
-    <echo>otversion="${otversion}"</echo>
-    <echo>otmajorversion="${otmajorversion}"</echo>
-    <echo>isOT1.8.5="${isOT1.8.5}"</echo>
-    <echo>isOT2="${isOT2}"</echo>
-    <echo>isOT2.2="${isOT2.2}"</echo>
+    <echo>otversion=&quot;${otversion}&quot;</echo>
+    <echo>otmajorversion=&quot;${otmajorversion}&quot;</echo>
+    <echo>otshortversion=&quot;${otshortversion}&quot;</echo>
+    <echo>isOT1.8.5=&quot;${isOT1.8.5}&quot;</echo>
+    <echo>isOT2=&quot;${isOT2}&quot;</echo>
+    <echo>isOT2.2=&quot;${isOT2.2}&quot;</echo>
     
   </target>
   
   <!-- Stub targets for targets in 2.x but not 1.8.5: -->
-  <target name="preprocess.init"/>
-  <target name="branch-filter"/>
-  <target name="profile"/>
-  <target name="topic-fragment"/>
-  <target name="clean-map"/>
+  <target name="preprocess.init"></target>
+  <target name="branch-filter"></target>
+  <target name="profile"></target>
+  <target name="topic-fragment"></target>
+  <target name="clean-map"></target>
   
   <!-- Stub targets for targets in 1.8.5 but not 2.x: -->
-  <target name="mappull"/>
-  <target name="move-links"/>
+  <target name="mappull"></target>
+  <target name="move-links"></target>
   
     <target name="dc-preprocess-ot1.8.5" if="isOT1.8.5" description="DITA Community map-first preprocessing" depends="gen-list,debug-filter,copy-files,conrefpush,conref,move-meta-entries,keyref,coderef,mapref,mappull,dc-adjust-copy-to,chunk,maplink,move-links,topicpull,flag-module">
       <!-- This target replaces the base OT preprocess. 
@@ -94,7 +95,7 @@
   </target>
   
   <!-- THis is the same for OT 2.1 and 2.2 -->
-  <target name="preprocess-ot2.2" if="isOT2" depends="preprocess.init,gen-list,debug-filter,mapref,branch-filter,copy-files,keyref,conrefpush,conref,profile,topic-fragment,coderef,move-meta-entries,chunk,maplink,topicpull,flag-module,clean-map" description="Preprocessing ended"/>
+  <target name="preprocess-ot2.2" if="isOT2" depends="preprocess.init,gen-list,debug-filter,mapref,branch-filter,copy-files,keyref,conrefpush,conref,profile,topic-fragment,coderef,move-meta-entries,chunk,maplink,topicpull,flag-module,clean-map" description="Preprocessing ended"></target>
   
   
 

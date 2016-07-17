@@ -62,6 +62,7 @@
   <target name="dc-preprocess" depends="preprocess-ot2.2, dc-preprocess-ot1.8.5">
     <echo>otversion="${otversion}"</echo>
     <echo>otmajorversion="${otmajorversion}"</echo>
+    <echo>otshortversion="${otshortversion}"</echo>
     <echo>isOT1.8.5="${isOT1.8.5}"</echo>
     <echo>isOT2="${isOT2}"</echo>
     <echo>isOT2.2="${isOT2.2}"</echo>
