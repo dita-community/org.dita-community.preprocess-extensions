@@ -77,7 +77,6 @@
   <target name="clean-map"/>
   
   <!-- Stub targets for targets in 1.8.5 but not 2.x: -->
-  <target name="mappull"/>
   <target name="move-links"/>
   
     <target name="dc-preprocess-ot1.8.5" if="isOT1.8.5" 
@@ -155,6 +154,7 @@
     topic-fragment,
     coderef,
     move-meta-entries,
+    mappull,
     chunk,
     maplink,
     topicpull,
