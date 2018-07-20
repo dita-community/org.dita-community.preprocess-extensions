@@ -14,7 +14,7 @@
        
        ========================================== -->
   
-  <loadproperties srcfile="${dita.dir}/lib/configuration.properties"/>
+  <loadproperties srcfile="${dita.dir}/lib/configuration.properties" unless:set="otversion" xmlns:unless="ant:unless"/>
   
   <condition property="isOT1.8.5">
     <equals arg1="${otversion}" arg2="1.8.5"/> 
